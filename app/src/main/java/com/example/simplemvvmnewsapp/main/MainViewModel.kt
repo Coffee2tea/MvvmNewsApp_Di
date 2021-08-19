@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.simplemvvmnewsapp.data.models.Article
 import com.example.simplemvvmnewsapp.data.models.NewsResponse
 import com.example.simplemvvmnewsapp.util.DispatcherProvider
 import com.example.simplemvvmnewsapp.util.Resource
@@ -27,17 +28,27 @@ init {
     getBreakingNews()
 }
 
-    fun getBreakingNews() = viewModelScope.launch{
+    fun getBreakingNews() = viewModelScope.launch(dispatcher.io){
             breakingNews.postValue(Resource.Loading())
             val response = repository.getNews()
             breakingNews.postValue(response)
         }
 
-    fun searchForNews(searchQuery:String) = viewModelScope.launch{
+    fun searchForNews(searchQuery:String) = viewModelScope.launch(dispatcher.io){
         searchNews.postValue(Resource.Loading())
         val response = repository.searchNews(searchQuery)
         searchNews.postValue(response)
     }
+
+    fun saveArticle(article: Article) = viewModelScope.launch(dispatcher.io) {
+        repository.upsertArticle(article)
+    }
+
+    fun deleteArticle(article: Article) = viewModelScope.launch(dispatcher.io){
+        repository.deleteArticle(article)
+    }
+
+    fun getAllSavedNews() = repository.getAllSavedArticles()
 
 
 }

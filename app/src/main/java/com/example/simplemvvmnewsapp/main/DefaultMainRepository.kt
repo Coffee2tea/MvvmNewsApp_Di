@@ -1,6 +1,8 @@
 package com.example.simplemvvmnewsapp.main
 
+import androidx.lifecycle.LiveData
 import com.example.simplemvvmnewsapp.data.NewsApi
+import com.example.simplemvvmnewsapp.data.models.Article
 import com.example.simplemvvmnewsapp.data.models.NewsResponse
 import com.example.simplemvvmnewsapp.db.ArticleDao
 import com.example.simplemvvmnewsapp.db.ArticleDatabase
@@ -39,5 +41,18 @@ class DefaultMainRepository @Inject constructor(
         }
     }
 
-    fun getAllArticles() = articleDao.getAllArticles()
+    override fun getAllSavedArticles(): LiveData<List<Article>>{
+
+            return articleDao.getAllArticles()
+    }
+
+    override suspend fun upsertArticle(article: Article) {
+        articleDao.upsert(article)
+    }
+
+    override suspend fun deleteArticle(article: Article) {
+        articleDao.deleteArticle(article)
+    }
+
+
 }

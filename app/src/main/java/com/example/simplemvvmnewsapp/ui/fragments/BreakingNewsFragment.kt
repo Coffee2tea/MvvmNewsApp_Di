@@ -50,7 +50,6 @@ class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
 
-
                        newsAdapter.differ.submitList(newsResponse.articles)
 
                     }
