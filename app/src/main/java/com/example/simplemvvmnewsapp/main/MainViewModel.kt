@@ -22,6 +22,7 @@ class MainViewModel @Inject constructor(
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+
     //val breakingNewsPage = 1
 
 init {
@@ -49,6 +50,8 @@ init {
     }
 
     fun getAllSavedNews() = repository.getAllSavedArticles()
+
+    fun checkItemExistence(article:Article) = repository.hasItemAlready(article)
 
 
 }

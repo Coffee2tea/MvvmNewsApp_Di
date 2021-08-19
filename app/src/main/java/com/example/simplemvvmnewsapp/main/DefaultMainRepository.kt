@@ -54,5 +54,9 @@ class DefaultMainRepository @Inject constructor(
         articleDao.deleteArticle(article)
     }
 
+    override fun hasItemAlready(article: Article): Boolean {
+        return articleDao.hasItem()
+    }
+
 
 }

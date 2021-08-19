@@ -14,4 +14,7 @@ interface ArticleDao {
 
     @Delete
     suspend fun deleteArticle(article: Article)
+
+    @Query("SELECT EXISTS(SELECT * FROM articles)")
+    fun hasItem(): Boolean
 }

@@ -11,4 +11,5 @@ interface MainRepository {
     suspend fun upsertArticle(article: Article)
     suspend fun deleteArticle(article: Article)
     fun getAllSavedArticles():LiveData<List<Article>>
+    fun hasItemAlready(article: Article):Boolean
 }

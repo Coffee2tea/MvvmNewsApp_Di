@@ -69,7 +69,7 @@ class SavedNewsFragment: Fragment(R.layout.fragment_saved_news) {
             attachToRecyclerView(rvSavedNews)
         }
 
-        viewModel.getAllSavedNews().observe(viewLifecycleOwner, Observer { articles->
+        viewModel.getAllSavedNews().observe(viewLifecycleOwner, Observer { articles ->
 
                         newsAdapter.differ.submitList(articles)
 

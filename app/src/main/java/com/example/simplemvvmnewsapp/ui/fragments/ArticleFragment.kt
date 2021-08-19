@@ -29,8 +29,13 @@ class ArticleFragment: Fragment(R.layout.fragment_article) {
         }
 
         fab.setOnClickListener{
-            viewModel.saveArticle(article)
-            Snackbar.make(view,"Article Saved Successfully", Snackbar.LENGTH_SHORT).show()
+
+            if (viewModel.checkItemExistence(article)){
+                Snackbar.make(view,"Article already saved", Snackbar.LENGTH_SHORT).show()
+            }else{
+                viewModel.saveArticle(article)
+                Snackbar.make(view, "Article Saved Successfully", Snackbar.LENGTH_SHORT).show()
+            }
         }
 
     }
