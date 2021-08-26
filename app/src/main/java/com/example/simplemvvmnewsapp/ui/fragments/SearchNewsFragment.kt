@@ -2,6 +2,7 @@ package com.example.simplemvvmnewsapp.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -56,6 +57,26 @@ class SearchNewsFragment: Fragment(R.layout.fragment_search_news) {
                 }
             }
         }
+        etSearch.setOnKeyListener(object: View.OnKeyListener{
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+                if (event != null) {
+                    if (event.action == KeyEvent.ACTION_DOWN &&
+                        keyCode == KeyEvent.KEYCODE_ENTER
+                    ) {
+                        if (etSearch.text.toString().isNotEmpty()) {
+                            viewModel.searchForNews(etSearch.text.toString())
+
+                            etSearch.clearFocus()
+                            etSearch.isCursorVisible = false
+
+                            return true
+                        }
+
+                    }
+                }
+                return false
+            }
+        })
 
         viewModel.searchNews.observe(viewLifecycleOwner, Observer { response ->
             when(response){

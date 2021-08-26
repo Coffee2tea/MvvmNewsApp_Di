@@ -1,3 +1,3 @@
 <resources>
-    <string name="app_name">Simple MVVM News App</string>
+    <string name="app_name"><font size = "36">MVVM Di News</font></string>
 </resources>
