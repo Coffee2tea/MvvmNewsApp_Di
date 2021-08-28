@@ -46,6 +46,9 @@ init {
         searchNews.postValue(Resource.Loading())
         val response = repository.searchNews(searchQuery)
 
+        searchNewsResponse = null
+        searchNewsPage = 1
+
         searchNews.postValue(handleSearchNews(response))
     }
 
@@ -90,10 +93,10 @@ init {
                 if (searchNewsResponse == null){
                     searchNewsResponse = responseResult
                 }else{
-                    val oldArticles = searchNewsResponse?.articles
+                    //val oldArticles = searchNewsResponse?.articles
                     val newArticles = responseResult.articles
-                    oldArticles?.addAll(newArticles)
-                    //searchNewsResponse?.articles?.addAll(newArticles)
+                    //oldArticles?.addAll(newArticles)
+                    searchNewsResponse?.articles?.addAll(newArticles)
                 }
 
                 return Resource.Success(searchNewsResponse?:responseResult)
