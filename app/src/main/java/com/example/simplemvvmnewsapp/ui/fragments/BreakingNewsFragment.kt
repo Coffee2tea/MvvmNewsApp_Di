@@ -120,7 +120,7 @@ private fun showProgressBar(){
             val shouldPaginate = isNotLoadingAndIsNotLastPage && isAtLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate){
-                viewModel.getBreakingNews()
+                viewModel.getBreakingNews("ca","en")
                 isScrolling = false
             }
         }

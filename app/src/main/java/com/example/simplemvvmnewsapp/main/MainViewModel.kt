@@ -31,13 +31,13 @@ class MainViewModel @Inject constructor(
     var searchNewsPage = 1
 
 init {
-    getBreakingNews()
+    getBreakingNews("ca","en")
 }
 
-    fun getBreakingNews() = viewModelScope.launch(dispatcher.io){
+    fun getBreakingNews(country:String,language:String) = viewModelScope.launch(dispatcher.io){
             breakingNews.postValue(Resource.Loading())
 
-            val response = repository.getNews()
+            val response = repository.getNews(country,language)
 
             breakingNews.postValue(handleBreakingNews(response))
         }
@@ -66,8 +66,6 @@ init {
         if (response.isSuccessful){
             response.body() ?.let { responseResult->
 
-                //val responseBreakingNewsWithImages = removeArticleWithNoImage(responseResult)
-
                 breakingNewsPage++
                 if (breakingNewsResponse == null){
                     breakingNewsResponse = responseResult
@@ -88,7 +86,7 @@ init {
     private fun handleSearchNews(response: Response<NewsResponse>):Resource<NewsResponse>{
         if (response.isSuccessful){
             response.body() ?.let { responseResult->
-                //val responseSearchNewsWithImages = removeArticleWithNoImage(responseResult)
+
                searchNewsPage++
                 if (searchNewsResponse == null){
                     searchNewsResponse = responseResult
@@ -105,16 +103,5 @@ init {
         }
         return Resource.Error(response.message())
     }
-
-    private fun removeArticleWithNoImage(newsResponse: NewsResponse):NewsResponse {
-        for (article in newsResponse.articles) {
-            if (article.urlToImage.isNullOrEmpty()) {
-                newsResponse.articles.remove(article)
-            }
-        }
-        return newsResponse
-    }
-
-
 
 }
