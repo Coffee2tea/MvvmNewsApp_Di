@@ -22,14 +22,18 @@ import com.example.simplemvvmnewsapp.util.Constants.Companion.QUERY_PAGE_COUNT
 import com.example.simplemvvmnewsapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
+import kotlinx.android.synthetic.main.fragment_breaking_news.paginationProgressBar
+import kotlinx.android.synthetic.main.fragment_chinese_breaking_news.*
+import kotlinx.android.synthetic.main.item_article_review.*
+import kotlinx.android.synthetic.main.item_article_review.view.*
 
 @AndroidEntryPoint
-class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
+class ChineseBreakingNewsFragment: Fragment(R.layout.fragment_chinese_breaking_news) {
 
     private  val viewModel: MainViewModel by viewModels()
     private lateinit var newsAdapter: NewsAdapter
 
-    private val TAG = "Breaking News Fragment"
+    private val TAG = "Chinese News Fragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,12 +45,12 @@ class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
                 putSerializable("article", it)
             }
             findNavController().navigate(
-                R.id.action_breakingNewsFragment_to_articleFragment,
+                R.id.action_chineseBreakingNewsFragment_to_articleFragment,
                 bundle
             )
         }
 
-        viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.chineseBreakingNews.observe(viewLifecycleOwner, Observer { response ->
             when(response){
                 is Resource.Success ->{
                     hideProgressBar()
@@ -54,9 +58,9 @@ class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
 
                        newsAdapter.differ.submitList(newsResponse.articles.toList())
                         val totalPages = newsResponse.totalResults / QUERY_PAGE_COUNT +1
-                        isLastPage = viewModel.breakingNewsPage == totalPages
+                        isLastPage = viewModel.chineseBreakingNewsPage == totalPages
                         if(isLastPage){
-                            rvBreakingNews.setPadding(0,0,0,0)
+                            rvChineseBreakingNews.setPadding(0,0,0,0)
                         }
 
                     }
@@ -120,18 +124,19 @@ private fun showProgressBar(){
             val shouldPaginate = isNotLoadingAndIsNotLastPage && isAtLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate){
-                viewModel.getCanadaBreakingNews("ca","en")
+                viewModel.getChineseBreakingNews("zh")
                 isScrolling = false
             }
         }
     }
 
 private fun setupRecyclerView(){
+
     newsAdapter = NewsAdapter()
-    rvBreakingNews.apply {
+    rvChineseBreakingNews.apply {
         adapter = newsAdapter
         layoutManager = LinearLayoutManager(activity)
-        addOnScrollListener(this@BreakingNewsFragment.scrollListener)
+        addOnScrollListener(this@ChineseBreakingNewsFragment.scrollListener)
     }
 }
 }

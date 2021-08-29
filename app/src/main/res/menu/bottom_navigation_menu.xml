@@ -13,4 +13,8 @@
         android:title="Search News"
         android:icon="@drawable/ic_all_news"/>
 
+    <item android:id="@+id/chineseBreakingNewsFragment"
+        android:title="中文"
+        android:icon="@drawable/ic_ch"/>
+
 </menu>

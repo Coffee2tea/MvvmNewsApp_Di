@@ -6,6 +6,7 @@ import com.example.simplemvvmnewsapp.data.models.Article
 import com.example.simplemvvmnewsapp.data.models.NewsResponse
 import com.example.simplemvvmnewsapp.db.ArticleDao
 import com.example.simplemvvmnewsapp.util.Resource
+import retrofit2.Response
 import javax.inject.Inject
 
 class DefaultMainRepository @Inject constructor(
@@ -15,8 +16,9 @@ class DefaultMainRepository @Inject constructor(
 
     override suspend fun getNews(countryCode:String,language:String) = api.getBreakingNews(countryCode,language)
 
-    override suspend fun searchNews(searchQuery:String) = api.searchForNews(searchQuery)
+    override suspend fun getBreakingNewsInLanguage(language:String) = api.getBreakingNewsInLanguage(language)
 
+    override suspend fun searchNews(searchQuery:String) = api.searchForNews(searchQuery)
 
     override fun getAllSavedArticles(): LiveData<List<Article>>{
 

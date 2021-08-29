@@ -26,21 +26,38 @@ class MainViewModel @Inject constructor(
     var breakingNewsResponse: NewsResponse? = null
     var breakingNewsPage = 1
 
+    val chineseBreakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    var chineseBreakingNewsResponse: NewsResponse? = null
+    var chineseBreakingNewsPage = 1
+
     val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var searchNewsResponse: NewsResponse? = null
     var searchNewsPage = 1
 
 init {
-    getBreakingNews("ca","en")
+    getCanadaBreakingNews("ca","en")
+    getChineseBreakingNews("zh")
 }
 
-    fun getBreakingNews(country:String,language:String) = viewModelScope.launch(dispatcher.io){
+    fun getCanadaBreakingNews(country:String,language:String) = viewModelScope.launch(dispatcher.io){
             breakingNews.postValue(Resource.Loading())
 
             val response = repository.getNews(country,language)
 
             breakingNews.postValue(handleBreakingNews(response))
         }
+
+    fun getChineseBreakingNews(language:String) = viewModelScope.launch(dispatcher.io){
+
+        chineseBreakingNews.postValue(Resource.Loading())
+
+        val response = repository.getBreakingNewsInLanguage(language)
+
+        chineseBreakingNewsResponse = null
+        chineseBreakingNewsPage = 1
+
+        chineseBreakingNews.postValue(handleChineseBreakingNews(response))
+    }
 
     fun searchForNews(searchQuery:String) = viewModelScope.launch(dispatcher.io){
         searchNews.postValue(Resource.Loading())
@@ -104,4 +121,27 @@ init {
         return Resource.Error(response.message())
     }
 
+    private fun handleChineseBreakingNews(response: Response<NewsResponse>):Resource<NewsResponse>{
+        if (response.isSuccessful){
+            response.body() ?.let { responseResult->
+
+                chineseBreakingNewsPage++
+
+                if (chineseBreakingNewsResponse == null){
+                    chineseBreakingNewsResponse = responseResult
+                }else{
+
+                    val newArticles = responseResult.articles
+
+                    chineseBreakingNewsResponse?.articles?.addAll(newArticles)
+                }
+
+                return Resource.Success(chineseBreakingNewsResponse?:responseResult)
+
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
 }
+
