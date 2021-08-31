@@ -11,10 +11,16 @@ import com.example.simplemvvmnewsapp.R
 import com.example.simplemvvmnewsapp.data.models.Article
 import com.example.simplemvvmnewsapp.util.Constants.Companion.DEFAULT_IMAGE
 import kotlinx.android.synthetic.main.item_article_review.view.*
+import android.util.TypedValue
+
+
+
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
 
     inner class ArticleViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+
+    private var textSize = 22F
 
     private val differCallback = object: DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -44,6 +50,9 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position]
+
+        holder.itemView.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize )
+
         holder.itemView.apply {
             if (article.urlToImage.isNullOrEmpty()){
                 Glide.with(this).load(DEFAULT_IMAGE).into(ivArticleImage)
@@ -58,6 +67,11 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>(){
                 onItemClickListener?.let { it(article) }
             }
         }
+    }
+
+    fun setTextSize(textSize: Float){
+        this.textSize = textSize
+        notifyDataSetChanged()
     }
 
     private var onItemClickListener: ((Article) -> Unit)? = null

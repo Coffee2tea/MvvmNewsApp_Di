@@ -2,6 +2,7 @@ package com.example.simplemvvmnewsapp.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 
 import android.view.View
 import android.widget.AbsListView
@@ -79,6 +80,8 @@ class ChineseBreakingNewsFragment: Fragment(R.layout.fragment_chinese_breaking_n
             }
         })
 
+
+
     }
 
 
@@ -124,7 +127,7 @@ private fun showProgressBar(){
             val shouldPaginate = isNotLoadingAndIsNotLastPage && isAtLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate){
-                viewModel.getChineseBreakingNews("zh")
+                viewModel.getChineseBreakingNews("tw","zh")
                 isScrolling = false
             }
         }
@@ -133,10 +136,12 @@ private fun showProgressBar(){
 private fun setupRecyclerView(){
 
     newsAdapter = NewsAdapter()
+    newsAdapter.setTextSize(20F)
     rvChineseBreakingNews.apply {
         adapter = newsAdapter
         layoutManager = LinearLayoutManager(activity)
         addOnScrollListener(this@ChineseBreakingNewsFragment.scrollListener)
     }
 }
+
 }

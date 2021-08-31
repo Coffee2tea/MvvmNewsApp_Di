@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="titleStyle">
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:fontWeight">28</item>
         <item name="android:logo">@drawable/ic_globe</item>
     </style>
-
 </resources>

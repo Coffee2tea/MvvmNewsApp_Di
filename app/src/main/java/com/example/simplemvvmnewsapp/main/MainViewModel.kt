@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
 
 init {
     getCanadaBreakingNews("ca","en")
-    getChineseBreakingNews("zh")
+    getChineseBreakingNews("tw","zh")
 }
 
     fun getCanadaBreakingNews(country:String,language:String) = viewModelScope.launch(dispatcher.io){
@@ -47,11 +47,11 @@ init {
             breakingNews.postValue(handleBreakingNews(response))
         }
 
-    fun getChineseBreakingNews(language:String) = viewModelScope.launch(dispatcher.io){
+    fun getChineseBreakingNews(country:String,language:String) = viewModelScope.launch(dispatcher.io){
 
         chineseBreakingNews.postValue(Resource.Loading())
 
-        val response = repository.getBreakingNewsInLanguage(language)
+        val response = repository.getNews(country,language)
 
         chineseBreakingNewsResponse = null
         chineseBreakingNewsPage = 1
