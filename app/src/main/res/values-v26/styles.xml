@@ -3,7 +3,7 @@
 
     <style name="titleStyle">
         <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:fontWeight">28</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:logo">@drawable/ic_globe</item>
     </style>
 </resources>

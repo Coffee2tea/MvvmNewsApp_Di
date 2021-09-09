@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/savedNewsFragment"
+        android:title="favorite"
+        android:icon="@drawable/ic_favorite"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/searchNewsFragment"
+        android:title="search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/settingFragment"
+        android:title="setting"
+        android:icon="@drawable/ic_setting"
+        app:showAsAction="never"/>
+
+</menu>
