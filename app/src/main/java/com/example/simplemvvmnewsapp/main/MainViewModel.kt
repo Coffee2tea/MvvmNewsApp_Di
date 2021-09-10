@@ -1,9 +1,13 @@
 package com.example.simplemvvmnewsapp.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.ConnectivityManager.*
+import android.net.NetworkCapabilities.*
+import android.os.Build
+import androidx.lifecycle.*
+import com.example.simplemvvmnewsapp.NewsApplication
 import com.example.simplemvvmnewsapp.data.models.Article
 import com.example.simplemvvmnewsapp.data.models.NewsResponse
 import com.example.simplemvvmnewsapp.util.DispatcherProvider
@@ -13,14 +17,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.io.IOException
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    app: Application,
     private val repository: MainRepository,
     private val dispatcher: DispatcherProvider
-):ViewModel() {
+): AndroidViewModel(app) {
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsResponse: NewsResponse? = null
@@ -40,33 +46,16 @@ init {
 }
 
     fun getCanadaBreakingNews(country:String,language:String) = viewModelScope.launch(dispatcher.io){
-            breakingNews.postValue(Resource.Loading())
-
-            val response = repository.getNews(country,language)
-
-            breakingNews.postValue(handleBreakingNews(response))
+            safeCanadianBreakingNewsCall(country,language)
         }
 
     fun getChineseBreakingNews(country:String,language:String) = viewModelScope.launch(dispatcher.io){
 
-        chineseBreakingNews.postValue(Resource.Loading())
-
-        val response = repository.getNews(country,language)
-
-        chineseBreakingNewsResponse = null
-        chineseBreakingNewsPage = 1
-
-        chineseBreakingNews.postValue(handleChineseBreakingNews(response))
+        safeChineseBreakingNewsCall(country,language)
     }
 
     fun searchForNews(searchQuery:String) = viewModelScope.launch(dispatcher.io){
-        searchNews.postValue(Resource.Loading())
-        val response = repository.searchNews(searchQuery)
-
-        searchNewsResponse = null
-        searchNewsPage = 1
-
-        searchNews.postValue(handleSearchNews(response))
+        safeSearchNewsCall(searchQuery)
     }
 
     fun saveArticle(article: Article) = viewModelScope.launch(dispatcher.io) {
@@ -141,6 +130,106 @@ init {
             }
         }
         return Resource.Error(response.message())
+    }
+
+    private suspend fun safeCanadianBreakingNewsCall(country: String, language: String){
+        breakingNews.postValue(Resource.Loading())
+        try {
+            if (hasInternetConnection()){
+
+                val response = repository.getNews(country,language,breakingNewsPage)
+
+                breakingNewsResponse = null
+                breakingNewsPage = 1
+
+                breakingNews.postValue(handleBreakingNews(response))
+
+            } else{
+                breakingNews.postValue(Resource.Error("Can't connect to the Internet"))
+            }
+
+        }catch (t: Throwable){
+            when(t){
+                is IOException -> breakingNews.postValue(Resource.Error("Network Failure"))
+                else -> breakingNews.postValue(Resource.Error("Conversion Failure"))
+            }
+
+        }
+    }
+
+    private suspend fun safeChineseBreakingNewsCall(country: String, language: String){
+        chineseBreakingNews.postValue(Resource.Loading())
+        try {
+            if (hasInternetConnection()){
+
+                val response = repository.getNews(country,language,chineseBreakingNewsPage)
+
+                chineseBreakingNewsResponse = null
+                chineseBreakingNewsPage = 1
+
+                chineseBreakingNews.postValue(handleChineseBreakingNews(response))
+
+            } else{
+                chineseBreakingNews.postValue(Resource.Error("Can't connect to the Internet"))
+            }
+
+        }catch (t: Throwable){
+            when(t){
+                is IOException -> chineseBreakingNews.postValue(Resource.Error("Network Failure"))
+                else -> chineseBreakingNews.postValue(Resource.Error("Conversion Failure"))
+            }
+        }
+    }
+
+    private suspend fun safeSearchNewsCall(searchQuery: String){
+        searchNews.postValue(Resource.Loading())
+        try {
+            if (hasInternetConnection()){
+                val response = repository.searchNews(searchQuery)
+
+
+            searchNewsResponse = null
+            searchNewsPage = 1
+
+            searchNews.postValue(handleSearchNews(response))
+            }else{
+                searchNews.postValue(Resource.Error("Can't connect to the Internet"))
+            }
+        }catch (t: Throwable){
+            when(t){
+                is IOException -> searchNews.postValue(Resource.Error("Network Failure"))
+                else -> searchNews.postValue(Resource.Error("Conversion Failure"))
+            }
+        }
+
+    }
+
+    private fun hasInternetConnection():Boolean{
+        val connectivityManager = getApplication<NewsApplication>().getSystemService(
+            Context.CONNECTIVITY_SERVICE
+        ) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            val activeNetwork = connectivityManager.activeNetwork?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)?: return false
+
+            return when{
+                capabilities.hasTransport(TRANSPORT_WIFI) -> true
+                capabilities.hasTransport(TRANSPORT_CELLULAR) -> true
+                capabilities.hasTransport(TRANSPORT_ETHERNET)-> true
+                else -> false
+            }
+        }else{
+            connectivityManager.activeNetworkInfo?.run{
+                return when(type){
+                    TYPE_WIFI -> true
+                    TYPE_MOBILE -> true
+                    TYPE_ETHERNET -> true
+                    else -> false
+                }
+            }
+        }
+        return false
     }
 
 }

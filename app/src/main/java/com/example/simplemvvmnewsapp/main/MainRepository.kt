@@ -8,7 +8,7 @@ import retrofit2.Response
 
 interface MainRepository {
 
-    suspend fun getNews(countryCode:String,language:String):Response<NewsResponse>
+    suspend fun getNews(countryCode:String,language:String,page:Int):Response<NewsResponse>
     suspend fun getBreakingNewsInLanguage(language:String):Response<NewsResponse>
     suspend fun searchNews(searchQuery:String): Response<NewsResponse>
     suspend fun upsertArticle(article: Article)

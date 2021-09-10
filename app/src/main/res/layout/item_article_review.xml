@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/ivArticleImage"
         android:layout_width="432dp"
-        android:layout_height="160dp"
+        android:layout_height="170dp"
         android:padding="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"

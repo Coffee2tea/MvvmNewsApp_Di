@@ -13,6 +13,8 @@ interface NewsApi {
         countryCode: String,
         @Query("language")
         language: String,
+        @Query("page")
+        page: Int,
         @Query("apiKey")
         apiKey: String = API_KEY
     ): Response<NewsResponse>

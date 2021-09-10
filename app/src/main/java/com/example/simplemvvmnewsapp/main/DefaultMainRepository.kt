@@ -14,7 +14,7 @@ class DefaultMainRepository @Inject constructor(
     private val api: NewsApi
 ): MainRepository{
 
-    override suspend fun getNews(countryCode:String,language:String) = api.getBreakingNews(countryCode,language)
+    override suspend fun getNews(countryCode:String,language:String,page:Int) = api.getBreakingNews(countryCode,language,page)
 
     override suspend fun getBreakingNewsInLanguage(language:String) = api.getBreakingNewsInLanguage(language)
 
