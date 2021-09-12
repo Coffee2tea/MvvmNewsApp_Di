@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 
 }
 
@@ -45,11 +46,12 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.3.1'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.21"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.30"
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -61,6 +63,17 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
 
+    //Timber
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
+    //Firebase Firestore
+    implementation "com.google.firebase:firebase-firestore:23.0.3"
+
+    //Firebase Storage KTX
+    implementation "com.google.firebase:firebase-storage-ktx:20.0.0"
+
+    //Firebase Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-service:1.1.1"
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.37"
@@ -94,12 +107,18 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
     // Navigation Components
-    def nav_version = ""
-
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-alpha06" // For Kotlin use navigation-fragment-ktx
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-alpha06" // For Kotlin use navigation-ui-ktx
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0-alpha08" // For Kotlin use navigation-fragment-ktx
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.0-alpha08" // For Kotlin use navigation-ui-ktx
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //Material Design
+    implementation 'com.google.android.material:material:1.5.0-alpha03'
+
+    // ExoPlayer
+    api "com.google.android.exoplayer:exoplayer-core:2.15.0"
+    api "com.google.android.exoplayer:exoplayer-ui:2.15.0"
+    api "com.google.android.exoplayer:extension-mediasession:2.15.0"
 }
