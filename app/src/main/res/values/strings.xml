@@ -2,4 +2,6 @@
     <string name="app_name"><font size="29">MVVM Di News</font></string>
     <string name="close">close</string>
     <string name="open">open</string>
+    <string name="notification_channel_name">Music Channel</string>
+    <string name="notification_channel_description">Currently playing music</string>
 </resources>

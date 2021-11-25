@@ -64,5 +64,9 @@
         android:id="@+id/settingFragment"
         android:name="com.example.simplemvvmnewsapp.ui.fragments.SettingFragment"
         android:label="SettingFragment" />
+    <fragment
+        android:id="@+id/musicFragment"
+        android:name="com.example.simplemvvmnewsapp.ui.fragments.MusicFragment"
+        android:label="MusicFragment" />
 
 </navigation>

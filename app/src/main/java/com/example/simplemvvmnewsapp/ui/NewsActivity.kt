@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.RequestManager
 import com.example.simplemvvmnewsapp.R
 import com.example.simplemvvmnewsapp.ui.fragments.BreakingNewsFragment
 import com.example.simplemvvmnewsapp.ui.fragments.SavedNewsFragment
@@ -20,6 +21,8 @@ import kotlinx.android.synthetic.main.activity_news.*
 
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
+
+        lateinit var glide: RequestManager
 
         lateinit var toggle_button: ActionBarDrawerToggle
 

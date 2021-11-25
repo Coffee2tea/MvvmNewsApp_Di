@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "359484164609",
+    "project_id": "mvvm-di-news-app",
+    "storage_bucket": "mvvm-di-news-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359484164609:android:5e360f987297e6a0060e00",
+        "android_client_info": {
+          "package_name": "com.example.simplemvvmnewsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359484164609-ifc4nt17fl91hqb5rhe4sk4hhrdv9l0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmGwf68Ven1bj4N2046m9kldfbVtFgvVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359484164609-ifc4nt17fl91hqb5rhe4sk4hhrdv9l0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
